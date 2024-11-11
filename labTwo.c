@@ -1,18 +1,37 @@
 #include <stdio.h>
 #include <string.h>
 #define SIZE_OF_BUFFER 100
+#define ERROR_EXIT -1
+#define SUCCES_EXIT 0
 
-void search_in_buffer(char* buffer,int len_of_buffer, char* search_text, int len_of_search, int number_of_line){
+typedef struct
+{
+    int number_of_line;
+    int number_of_col;
+}Data_about_line;
+
+
+typedef struct 
+{
+    int len_of_string;
+    char string[SIZE_OF_BUFFER];
+}string_data;
+
+
+void search_in_buffer(string_data buffer_of_file, char* search_text, int len_of_search, 
+    Data_about_line data_about_line, int* count_of_found){
     int found = 0;
-    for(int i = 0; i<len_of_buffer; i++){
-        if(buffer[i] == search_text[0]){
+    for(int i = 0; i<buffer_of_file.len_of_string; i++){
+        if(buffer_of_file.string[i] == search_text[0]){
             for(int j = 0; j<len_of_search; j++){
-                if(buffer[i+j] != search_text[j]) break;
+                if(buffer_of_file.string[i+j] != search_text[j]) break;
 
                 found++;
 
                 if(found == len_of_search){
-                    printf("find at %d line\n",number_of_line);
+                    printf("\"%s\" find at %d line in %d column\n",search_text,data_about_line.number_of_line,
+                    data_about_line.number_of_col+i);
+                    *count_of_found += 1;
                     found = 0;
                 }
             }
@@ -24,29 +43,40 @@ void search_in_buffer(char* buffer,int len_of_buffer, char* search_text, int len
 
 int main(int argc, char* argv[]){
     FILE* file;
-    int number_of_line = 1;
-    int len_of_buffer;
-    char line_of_file[SIZE_OF_BUFFER];
-    char search_text[1] = "0";
+    int count_of_found = 0;
+    string_data buffer_of_file;
+    Data_about_line data_about_line = {0,0}; 
 
 
+    if(argc != 3){
+        printf("wrong number of input\nyou should use this template: ./lab path search_txt\n");
+        return ERROR_EXIT;
+    }
 
+    file = fopen(argv[1],"r");
     
-    file = fopen("test.txt","r");
-    if (file != NULL)
+    if (file == NULL){
+        printf("you use wrong path\n");
+        return ERROR_EXIT;
+    }
+
+    int len_of_search_text = strlen(argv[2]);
+    char search_text[len_of_search_text];
+
+    strcpy(search_text,argv[2]);
+
+    while (fgets(buffer_of_file.string,SIZE_OF_BUFFER,file))
     {
-        while (fgets(line_of_file,SIZE_OF_BUFFER,file))
-        {
-            len_of_buffer = strlen(line_of_file);
-            search_in_buffer(line_of_file,len_of_buffer, search_text, 1, number_of_line);
-            if(len_of_buffer < SIZE_OF_BUFFER) number_of_line++;
-        }
-        
+        buffer_of_file.len_of_string = strlen(buffer_of_file.string);
+        search_in_buffer(buffer_of_file, search_text, len_of_search_text, data_about_line, &count_of_found);
+        if(buffer_of_file.len_of_string < SIZE_OF_BUFFER-1){ 
+            data_about_line.number_of_line++;
+            data_about_line.number_of_col = 0;
+            }else{
+                data_about_line.number_of_col += SIZE_OF_BUFFER-1;
+            }
     }
+    printf("total of found elements: %d\n",count_of_found);
     
-
-    if(argc > 1){
-        printf("argument : %s\n",argv[1]);
-    }
-    return 0;
+    return SUCCES_EXIT;
 }
