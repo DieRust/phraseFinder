@@ -1,2 +1,2 @@
-labTwo: labTwo.c
-	gcc -o lab labTwo.c -Wall
+labTwo: labTwo.c mylib.c
+	gcc -o lab labTwo.c mylib.c -Wall
