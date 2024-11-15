@@ -1,4 +1,4 @@
-#include "mylib.h"
+#include "../headers/mylib.h"
 
 void search_in_buffer(string_data buffer_of_file, char* search_text, int len_of_search, 
     Data_about_line data_about_line, int* count_of_found){

@@ -1,4 +1,4 @@
-#include "mylib.h"
+#include "../headers/mylib.h"
 
 int main(int argc, char* argv[]){
     FILE* file;
@@ -16,7 +16,7 @@ int main(int argc, char* argv[]){
     file = fopen(argv[1],"r");
     dir = opendir(argv[1]);
 
-    if (file == NULL || dir == NULL){
+    if (file == NULL && dir == NULL){
         printf("you use wrong path\n");
         return ERROR_EXIT;
     }
@@ -37,6 +37,7 @@ int main(int argc, char* argv[]){
                 data_about_line.number_of_col += SIZE_OF_BUFFER-1;
             }
     }
+    fclose(file);
     }
     if(dir != NULL){
     while( (entry=readdir(dir)) )
@@ -49,9 +50,8 @@ int main(int argc, char* argv[]){
         count_of_found++;
         }
     }
+    closedir(dir);
     }
     printf("total of found elements: %d\n",count_of_found);
-    fclose(file);
-    closedir(dir);
     return SUCCES_EXIT;
 }
