@@ -2,6 +2,8 @@
 
 int main(int argc, char* argv[]){
     FILE* file;
+    DIR* dir;
+    struct dirent *entry;
     int count_of_found = 0;
     string_data buffer_of_file;
     Data_about_line data_about_line = {1,0};
@@ -12,8 +14,9 @@ int main(int argc, char* argv[]){
     }
 
     file = fopen(argv[1],"r");
-    
-    if (file == NULL){
+    dir = opendir(argv[1]);
+
+    if (file == NULL || dir == NULL){
         printf("you use wrong path\n");
         return ERROR_EXIT;
     }
@@ -22,7 +25,7 @@ int main(int argc, char* argv[]){
     char search_text[len_of_search_text];
 
     strcpy(search_text,argv[2]);
-
+    if(file != NULL){
     while (fgets(buffer_of_file.string,SIZE_OF_BUFFER,file))
     {
         buffer_of_file.len_of_string = strlen(buffer_of_file.string);
@@ -34,7 +37,21 @@ int main(int argc, char* argv[]){
                 data_about_line.number_of_col += SIZE_OF_BUFFER-1;
             }
     }
+    }
+    if(dir != NULL){
+    while( (entry=readdir(dir)) )
+    {
+        if(strcmp(entry->d_name, search_text) == 0){
+        char type[5];
+        if(entry->d_type == DIR_ID) strcpy(type,"dir");
+        if(entry->d_type == FILE_ID) strcpy(type,"file");
+        printf("found %s: %s\n",type, entry->d_name);
+        count_of_found++;
+        }
+    }
+    }
     printf("total of found elements: %d\n",count_of_found);
-    
+    fclose(file);
+    closedir(dir);
     return SUCCES_EXIT;
 }

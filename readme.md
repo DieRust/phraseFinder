@@ -10,9 +10,11 @@ Structs:
 * **string_data** hold number of size chars table and chars table.
 
 Function:
-* **search_in_buffer()** it search in buffer a given phrase, evrytime if they did it, it will write in terminal current number of line and column.
+* **search_in_buffer()** it searches in buffer for a given phrase, everytime if program finds it, it will write in terminal current number of line and column.
 
 In the main function at first I check if user give the good number of arguments, next i check if the given path to file exits. If both condition are true the program in while loop will take the chars from a file until the end of file. At the end the prgram will return total number of find elements.
 
-To tests i use free template of .txt and .csv file from https://www.online-convert.com. If i gave wrong number of arguments then program exit with error, the same thing is going if the path does not exit. In my tests I use command: "./lab test.txt "TXT" " and "./lab test.csv "$" ", and evrything work as expected. 
+In addiction program also can take dir location as a path to look for given phrase.
+
+To tests i use free template of .txt and .csv file from https://www.online-convert.com. If i gave wrong number of arguments then program exit with error, the same thing is going if the path does not exit. In my tests I use command: "./lab test.txt "TXT" " and "./lab test.csv "$" ","./lab "." "test","./lab "." "test.txt", and evrything work as expected. 
 

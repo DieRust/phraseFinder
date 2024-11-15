@@ -3,9 +3,12 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <dirent.h>
 #define SIZE_OF_BUFFER 100
 #define ERROR_EXIT -1
 #define SUCCES_EXIT 0
+#define FILE_ID 8
+#define DIR_ID 4
 
 typedef struct
 {
