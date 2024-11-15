@@ -1,56 +1,28 @@
 #include "../headers/mylib.h"
 
 int main(int argc, char* argv[]){
-    FILE* file;
-    DIR* dir;
-    struct dirent *entry;
     int count_of_found = 0;
-    string_data buffer_of_file;
-    Data_about_line data_about_line = {1,0};
+    Data_from_user data_from_user ={argc,argv};
 
-    if(argc != 3){
-        printf("wrong number of input\nyou should use this template: ./lab path search_txt\n");
+    if(check_numbers_of_arguments(data_from_user.argc)){
         return ERROR_EXIT;
     }
 
-    file = fopen(argv[1],"r");
-    dir = opendir(argv[1]);
+    FILE* file = fopen(argv[1],"r");
+    DIR* dir = opendir(argv[1]);
 
-    if (file == NULL && dir == NULL){
-        printf("you use wrong path\n");
+    if(check_if_path_exits(data_from_user)){
         return ERROR_EXIT;
     }
 
-    int len_of_search_text = strlen(argv[2]);
-    char search_text[len_of_search_text];
-
-    strcpy(search_text,argv[2]);
     if(file != NULL){
-    while (fgets(buffer_of_file.string,SIZE_OF_BUFFER,file))
-    {
-        buffer_of_file.len_of_string = strlen(buffer_of_file.string);
-        search_in_buffer(buffer_of_file, search_text, len_of_search_text, data_about_line, &count_of_found);
-        if(buffer_of_file.len_of_string < SIZE_OF_BUFFER-1){ 
-            data_about_line.number_of_line++;
-            data_about_line.number_of_col = 0;
-            }else{
-                data_about_line.number_of_col += SIZE_OF_BUFFER-1;
-            }
+        count_of_found = path_is_a_file(data_from_user,file);
+        fclose(file);
     }
-    fclose(file);
-    }
+
     if(dir != NULL){
-    while( (entry=readdir(dir)) )
-    {
-        if(strcmp(entry->d_name, search_text) == 0){
-        char type[5];
-        if(entry->d_type == DIR_ID) strcpy(type,"dir");
-        if(entry->d_type == FILE_ID) strcpy(type,"file");
-        printf("found %s: %s\n",type, entry->d_name);
-        count_of_found++;
-        }
-    }
-    closedir(dir);
+        count_of_found = path_is_a_dir(data_from_user,dir);
+        closedir(dir);
     }
     printf("total of found elements: %d\n",count_of_found);
     return SUCCES_EXIT;
