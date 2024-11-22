@@ -1,4 +1,4 @@
-#include "../headers/mylib.h"
+#include "../inc/mylib.h"
 
 int main(int argc, char* argv[]){
     int count_of_found = 0;

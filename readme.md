@@ -14,7 +14,7 @@ Functions:
 * **check_numbers_of_arguments()** check if number of given arguments is equal to 3
 * **check_if_path_exits()** check if given path exits
 * **path_is_a_file()** do logic for file type path
-* **search_in_buffer()** it searches in buffer for a given phrase, everytime if program finds it, it will write in terminal current number of line and column.
+* **search_in_buffer()** it searches in buffer for a given phrase
 * **path_is_a_dir** do logic for directory type path
 
 In the main function at first I check if user give the good number of arguments, next i check if the given path to file exits. If both condition are true the program in while loop will take the chars from a file until the end of file. Or if path is directory program search in all directory if given phraze is in this dir. At the end the prgram will return total number of find elements.

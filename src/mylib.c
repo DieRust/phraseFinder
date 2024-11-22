@@ -1,4 +1,4 @@
-#include "../headers/mylib.h"
+#include "../inc/mylib.h"
 
 int check_numbers_of_arguments(int argc){
     if(argc != 3){
@@ -19,7 +19,6 @@ int check_if_path_exits(Data_from_user data_from_user){
 }
 
 int path_is_a_file(Data_from_user data_from_user,FILE* file){
-  //  FILE* file = fopen(data_from_user.argv[2],"r");
     String_data buffer_of_file;
     Data_about_line data_about_line={1,0};
     int count_of_find = 0;
@@ -36,7 +35,7 @@ int path_is_a_file(Data_from_user data_from_user,FILE* file){
                 data_about_line.number_of_col += SIZE_OF_BUFFER-1;
             }
     }
-   // fclose(file);
+
     return count_of_find;
 }
 
