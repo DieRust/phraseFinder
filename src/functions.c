@@ -1,4 +1,4 @@
-#include "../inc/mylib.h"
+#include "../inc/functions.h"
 
 int check_numbers_of_arguments(int argc){
     if(argc != 3){
