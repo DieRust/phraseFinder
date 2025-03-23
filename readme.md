@@ -1,7 +1,6 @@
-# Lab 2 report from Pros subject
-## Rafał Lesiak index's number 331254
+# PraseFinder
 
-In this project i must to do a program to find phrase in given path to file.\
+In this project i make a program to find phrase in given path to file.\
 A phraze and path must be given in call arguments. The program's outputs will be the number of line and number of column in this file.
 
 To do this i made my own library which in I predefine my structs and my functions.\
